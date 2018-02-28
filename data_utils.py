@@ -5,7 +5,7 @@ from PIL import Image
 from torch.utils.data.dataset import Dataset
 from torchvision.transforms import Compose, RandomCrop, ToTensor, ToPILImage, CenterCrop, Resize
 
-from Face2Python.demo.mouth import get_mouth_mask
+from mouth import get_mouth_mask
 
 
 def is_image_file(filename):
