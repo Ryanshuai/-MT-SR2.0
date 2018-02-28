@@ -112,17 +112,19 @@ for epoch in range(1, NUM_EPOCHS + 1):
     val_bar = tqdm(val_loader)
     valing_results = {'mse': 0, 'ssims': 0, 'psnr': 0, 'ssim': 0, 'batch_sizes': 0}
     val_images = []
-    for val_lr, val_hr_restore, val_hr in val_bar:
+    for val_lr, val_hr_restore, val_hr, val_mask in val_bar:
         batch_size = val_lr.size(0)
         valing_results['batch_sizes'] += batch_size
         lr = Variable(val_lr, volatile=True)
         hr = Variable(val_hr, volatile=True)
+        mask = Variable(val_mask, volatile=True)
         if torch.cuda.is_available():
             lr = lr.cuda()
             hr = hr.cuda()
+            mask = mask.cuda()
         sr = netG(lr)
 
-        batch_mse = ((sr - hr) ** 2).data.mean()
+        batch_mse = (mask * ((sr - hr) ** 2)).data.mean()
         valing_results['mse'] += batch_mse * batch_size
         batch_ssim = pytorch_ssim.ssim(sr, hr).data[0]
         valing_results['ssims'] += batch_ssim * batch_size
