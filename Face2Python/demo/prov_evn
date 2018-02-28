@@ -1,3 +1,0 @@
-export LD_LIBRARY_PATH=/home/mt08/PycharmProjects/MTLabFace2Python/demo:$LD_LIBRARY_PATH
-
-
